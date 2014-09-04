@@ -1,16 +1,24 @@
+//Clase:Conjunto.java
+//Modela los diferentes conjuntos de desarrolladores y obtiene los
+//resultados que se deben desplegar
+//Hecho por:            Ma. Isabel Fernandez      Carnet: 13024 
+//			Erick Hernandez 	  Carnet: 13197
+//			Ana Bartra                Carnet: 13643
+//Fecha: 04/09/2014
+//***************************************************************
+import java.util.*;
+import javax.swing.*;
 
-import java.util.Set;
-import javax.swing.JOptionPane;
 
-
-public class Conjunto {
+public class Conjunto { 
     //DATOS
     private Factory factor = new Factory();
-    private int op;
+    private int op; 
     private int expe;
     private Boolean sub;
     private String subC;
     private String nombre;
+    private String NombreCon;
     private Set<String> Java = null;
     private Set<String> Web = null;
     private Set<String> Cel = null;
@@ -21,11 +29,13 @@ public class Conjunto {
     private Set<String> res5 = null;
     private Set<String> res6 = null;
         
-    public Conjunto(){
+    public Conjunto(){ //inicializacion
         //MENU
+        do{
         op=Integer.parseInt(JOptionPane.showInputDialog("Que implementación"
                 + " desea usar:\n1)HashSet\n2)TreeSet\n3)LinkedHashSet"));
-        //LISTAS
+        }while(op>0 && op<4);
+        //LISTAS con factory
         Java = factor.getSet(op);
         Web = factor.getSet(op);
         Cel = factor.getSet(op);
@@ -61,14 +71,11 @@ public class Conjunto {
             }
             
             //agregar otro
-            expe=JOptionPane.showConfirmDialog(null,"Desea ingresar otra persona");
-            if(expe==0){
-                op=0;
-            }
+            op=JOptionPane.showConfirmDialog(null,"Desea ingresar otra persona");
         }while(op!=1);
     }
     
-    public void Resultados(){
+    public void Resultados(){ //calcula y obtiene los resultados
         //RESULTADO 1
         res1.addAll(Java);
         res1.retainAll(Web);
@@ -102,10 +109,28 @@ public class Conjunto {
         System.out.println("Es el conjunto de desarrollores Java suconjunto de los desarrolladores Web?" + subC);
         
         //RESULTADO 6 y 7
-        if(Java.size() > Web.size() ){
-            if(Java.size() > Cel.size()){
-                
-            }
+        
+        //VERIFICAR CUAL ES EL CONJUNTO CON MAS DESARROLLADORES
+        if(Java.size() > Cel.size() && Java.size() > Web.size()){
+            NombreCon="Desarrolladores Java";
+            res6=Java;
+        }else if(Cel.size() > Java.size() && Cel.size() > Web.size()){
+            NombreCon="Desarrolladores de celulares";
+            res6=Cel;
+        }else if(Web.size() > Cel.size() && Web.size() > Java.size()){
+            NombreCon="Desarrolladores Web";
+            res6=Web;
+        } else {
+            res6=null;
+            System.out.println("Existen conjuntos del mismo tamaño");
+        }
+        
+        //Imprimir resultados
+        if(res6!=null){
+            System.out.println("El conjunto más grande es el de los "+NombreCon+" y sus miembros son:\n"+res6);
+            
+            Set res6orden = new TreeSet(res6); //ordena la lista de nombres
+            System.out.println("Lista ordenada:\n"+res6orden);
         }
     }
 }
